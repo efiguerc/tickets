@@ -10,6 +10,11 @@ Things you may want to cover:
 * System dependencies
 
 * Configuration
+Environment Variables
+======================
+DATABASE_USER= Development database user
+DATABASE_PASSWORD= Development database password
+
 
 * Database creation
 
