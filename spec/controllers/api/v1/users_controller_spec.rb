@@ -8,7 +8,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "GET #show" do
 
     it "returns the information about a user in hash" do
-      get :show, id: user.id, format: :json
+      get :show, params: { id: user.id }, format: :json
 
       expect(subject[:email]).to  eq user.email
       expect(response).to         have_http_status :success
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       let(:user_attributes) { attributes_for :user }
 
       it "renders a json representation for the user just created" do
-        post :create, { user: user_attributes }, format: :json
+        post :create, params: { user: user_attributes }, format: :json
 
         expect(subject[:email]).to  eq user_attributes[:email]
         expect(response).to         have_http_status :created
@@ -32,7 +32,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       let(:invalid_user_attributes) { {password: "12345678", password_confirmation: "12345678"} }
 
       it "renders an errors json" do
-        post :create, { user: invalid_user_attributes }, format: :json
+        post :create, params: { user: invalid_user_attributes }, format: :json
 
         expect(subject).to                  have_key :errors
         expect(subject[:errors][:email]).to include "can't be blank"
