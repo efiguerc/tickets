@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
   it { should validate_confirmation_of(:password) }
   it { should allow_value('example@domain.com').for(:email) }
+  it { should validate_uniqueness_of(:access_token) }
 
   it { should be_valid }
 
