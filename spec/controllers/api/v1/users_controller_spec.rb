@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
+  subject{ json(response.body) }
 
   describe "GET #show" do
     let(:user) { FactoryGirl.create :user }
 
     it "returns the information about a user in hash" do
       get :show, id: user.id, format: :json
-      user_response = json(response.body)
 
-      expect(user_response[:email]).to eq user.email
-      expect(response).to have_http_status(:success)
+      expect(subject[:email]).to  eq user.email
+      expect(response).to         have_http_status :success
     end
   end
 
@@ -21,10 +21,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
       it "renders a json representation for the user just created" do
         post :create, { user: user_attributes }, format: :json
-        user_response = json(response.body)
 
-        expect(user_response[:email]).to eq user_attributes[:email]
-        expect(response).to have_http_status(:success)
+        expect(subject[:email]).to  eq user_attributes[:email]
+        expect(response).to         have_http_status :created
       end
     end
 
@@ -33,10 +32,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
       it "renders an errors json" do
         post :create, { user: invalid_user_attributes }, format: :json
-        user_response = json(response.body)
 
-        expect(user_response[:errors][:email]).to include "can't be blank"
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(subject[:errors][:email]).to include "can't be blank"
+        expect(response).to                 have_http_status :unprocessable_entity
       end
     end
   end
