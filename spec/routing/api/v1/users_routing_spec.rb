@@ -23,4 +23,12 @@ describe 'Users API routing specs' do
       action:     "update",
       id:         '1')
   end 
+
+  it 'destroy a user' do
+    expect(delete: "/api/v1/users/1").to route_to(
+      format:     :json,
+      controller: "api/v1/users",
+      action:     "destroy",
+      id:         '1')
+  end 
 end
