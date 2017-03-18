@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
+  let(:user) { create :user }
+
   subject{ json(response.body) }
 
   describe "GET #show" do
-    let(:user) { create :user }
 
     it "returns the information about a user in hash" do
       get :show, id: user.id, format: :json
@@ -41,7 +42,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe "PUT/PATCH #update" do
-    let(:user) { create :user }
 
     context "when is succesfully updated" do
 
@@ -62,6 +62,15 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(subject[:errors][:email]).to include "is invalid"
         expect(response).to                 have_http_status :unprocessable_entity
       end
+    end
+  end
+
+  describe "DELETE #destroy" do
+
+    it "responds with :no_content status" do
+      delete :destroy, params: { id: user.id }, format: :json
+
+      expect(response).to have_http_status :no_content
     end
   end
 end
