@@ -6,7 +6,7 @@ module Request
   end
 
   module HeadersHelpers
-    def include_default_accept_headers(format = Mime::JSON)
+    def include_default_accept_headers(format = Mime[:json])
       request.headers['Accept']       = "#{request.headers['Accept']},#{format}"
       request.headers['Content-Type'] = format.to_s
     end
