@@ -4,7 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   subject{ json(response.body) }
 
   describe "GET #show" do
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { create :user }
 
     it "returns the information about a user in hash" do
       get :show, id: user.id, format: :json
@@ -17,7 +17,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "POST #create" do
 
     context "when is successfully created" do
-      let(:user_attributes) { FactoryGirl.attributes_for :user }
+      let(:user_attributes) { attributes_for :user }
 
       it "renders a json representation for the user just created" do
         post :create, { user: user_attributes }, format: :json
