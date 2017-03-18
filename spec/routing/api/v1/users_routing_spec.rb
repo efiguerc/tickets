@@ -8,4 +8,11 @@ describe 'Users API routing specs' do
       action:     "show",
       id:         '1')
   end 
+
+  it 'create a user' do
+    expect(post: "/api/v1/users").to route_to(
+      format:     :json,
+      controller: "api/v1/users",
+      action:     "create")
+  end 
 end
