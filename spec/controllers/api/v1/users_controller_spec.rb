@@ -33,7 +33,33 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       it "renders an errors json" do
         post :create, { user: invalid_user_attributes }, format: :json
 
+        expect(subject).to                  have_key :errors
         expect(subject[:errors][:email]).to include "can't be blank"
+        expect(response).to                 have_http_status :unprocessable_entity
+      end
+    end
+  end
+
+  describe "PUT/PATCH #update" do
+    let(:user) { create :user }
+
+    context "when is succesfully updated" do
+
+      it "renders the json representation for the updated user" do
+        patch :update, params: { id: user.id, user: {email: "new_mail@example.com"} }, format: :json
+
+        expect(subject[:email]).to  eq "new_mail@example.com"
+        expect(response).to         have_http_status :ok
+      end
+    end
+
+    context "when it is not updated" do
+
+      it "renders an errors json" do
+        patch :update, params: { id: user.id, user: {email: "bad_mail.com"} }, format: :json
+
+        expect(subject).to                  have_key :errors
+        expect(subject[:errors][:email]).to include "is invalid"
         expect(response).to                 have_http_status :unprocessable_entity
       end
     end
