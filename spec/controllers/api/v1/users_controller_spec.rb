@@ -66,6 +66,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before(:each) do
+      api_authorization_header user.access_token
+    end
 
     it "responds with :no_content status" do
       delete :destroy, params: { id: user.id }

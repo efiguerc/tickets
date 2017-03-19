@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  before_action :authenticate_with_token!, only: [:update, :destroy]
+
   respond_to :json
 
   def show
@@ -15,7 +17,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    authenticate_with_token!
     user = current_user
 
     if user.update(user_params)
