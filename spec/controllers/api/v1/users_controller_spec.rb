@@ -40,9 +40,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   end
 
   describe "PUT/PATCH #update" do
+    before(:each) do
+      api_authorization_header user.access_token
+    end
 
     context "when is succesfully updated" do
-
       it "renders the json representation for the updated user" do
         patch :update, params: { id: user.id, user: {email: "new_mail@example.com"} }
 

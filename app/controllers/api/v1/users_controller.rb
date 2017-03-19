@@ -15,7 +15,9 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def update
-    user = User.find(params[:id])
+    authenticate_with_token!
+    user = current_user
+
     if user.update(user_params)
       render json: user, status: :ok, location: [:api_v1, user]
     else
