@@ -37,4 +37,23 @@ RSpec.describe Authenticable do
       expect(authentication).to respond_with :unauthorized
     end
   end
+
+  describe '#user_signed_in?' do
+
+    context "when there is a user on 'session'" do
+      before do
+        allow(authentication).to receive(:current_user).and_return(user)
+      end
+
+      it { expect(authentication).to be_user_signed_in }
+    end
+
+    context "when there is no user on 'session'" do
+      before do
+        allow(authentication).to receive(:current_user).and_return(nil)
+      end
+      
+      it { expect(authentication).not_to be_user_signed_in }
+    end
+  end
 end
