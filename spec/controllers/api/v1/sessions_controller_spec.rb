@@ -3,14 +3,12 @@ require 'rails_helper'
 RSpec.describe Api::V1::SessionsController, type: :controller do
 
   describe "POST #create" do
-    let!(:user) { create(:user) }
+    let(:user) { create(:user) }
 
     context "when the credentials are correct" do
       let(:credentials) { { email: user.email, password: "12345678" } }
 
       it "returns the corresponding user" do
-        p "spec"
-        p user
         post :create, params: { session: credentials }
         user.reload
 
@@ -29,5 +27,15 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(response).to               have_http_status :unprocessable_entity
       end
     end
+  end
+
+  describe "DELETE #destroy" do
+    let(:user) { create(:user) }
+
+    it "respond with no content" do
+      delete :destroy, params: { id: user.access_token }
+
+      expect(response).to have_http_status :no_content
+    end 
   end
 end
