@@ -10,6 +10,10 @@ module Request
       request.headers['Accept']       = "#{request.headers['Accept']},#{format}"
       request.headers['Content-Type'] = format.to_s
     end
+
+    def api_authorization_header(token)
+      request.headers['Authorization'] = token
+    end
   end
 end
 
