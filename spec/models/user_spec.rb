@@ -5,13 +5,26 @@ RSpec.describe User, type: :model do
 
   subject { user }
 
-  it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
-  it { is_expected.to validate_confirmation_of(:password) }
-  it { is_expected.to allow_value('example@domain.com').for(:email) }
-  it { is_expected.to validate_uniqueness_of(:access_token) }
+  describe 'relations' do
+    it { is_expected.to have_many :tickets }
+  end
 
-  it { is_expected.to be_valid }
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
+    it { is_expected.to validate_confirmation_of(:password) }
+    it { is_expected.to allow_value('example@domain.com').for(:email) }
+    it { is_expected.to validate_uniqueness_of(:access_token) }
+    it { is_expected.to validate_presence_of(:role) }
+
+    it { is_expected.to be_valid }
+  end 
+
+  describe "status enum" do
+    it { expect(User.new(role: 0).admin?).to      eq true }
+    it { expect(User.new(role: 1).agent?).to      eq true }
+    it { expect(User.new(role: 2).customer?).to   eq true }
+  end
 
   describe "when email is not present" do
     before { user.email = " " }
