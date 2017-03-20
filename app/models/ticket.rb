@@ -1,11 +1,11 @@
 class Ticket < ApplicationRecord
-  belongs_to :customer, class_name: 'User'
-  belongs_to :agent, class_name: 'User'
+  belongs_to :customer, -> { where(role: 'customer') }, class_name: 'User'
+  belongs_to :agent, -> { where(role: 'agent').or(role: 'admin') }, class_name: 'User', optional: true
   
 	enum status: {
-    open:       0,
+    opened:     0,
     assigned:   1,  
-    closed:      2  
+    closed:     2  
   }
 
 	enum priority: {
@@ -19,12 +19,10 @@ class Ticket < ApplicationRecord
                         :title,
                         :description,
                         :status,
-                        :priority,
-                        :created_at,
-                        :updated_at
+                        :priority
 
   after_initialize do
-    self.status   ||= 'open'
+    self.status   ||= 'opened'
     self.priority ||= 'low'
   end
 end
