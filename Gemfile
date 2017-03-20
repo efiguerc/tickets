@@ -48,6 +48,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard', '~> 1.6.1'
+  gem 'pry-rails'
 end
 
 group :test do
