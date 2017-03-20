@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318191830) do
+ActiveRecord::Schema.define(version: 20170320203516) do
+
+  create_table "tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "customer_id"
+    t.string   "category"
+    t.string   "title"
+    t.text     "description", limit: 65535
+    t.integer  "status"
+    t.integer  "priority"
+    t.integer  "agent_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["agent_id"], name: "index_tickets_on_agent_id", using: :btree
+    t.index ["customer_id"], name: "index_tickets_on_customer_id", using: :btree
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -31,4 +45,6 @@ ActiveRecord::Schema.define(version: 20170318191830) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "tickets", "users", column: "agent_id"
+  add_foreign_key "tickets", "users", column: "customer_id"
 end
