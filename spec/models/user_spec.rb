@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { build(:user) }
+  let(:user) { build(:user, role: 0) }
 
   subject { user }
 
@@ -17,11 +17,9 @@ RSpec.describe User, type: :model do
     it { is_expected.to allow_value('example@domain.com').for(:email) }
     it { is_expected.to validate_uniqueness_of(:access_token) }
     it { is_expected.to validate_presence_of(:role) }
-
-    it { is_expected.to be_valid }
   end 
 
-  describe "status enum" do
+  describe "role enum" do
     it { expect(User.new(role: 0).admin?).to      eq true }
     it { expect(User.new(role: 1).agent?).to      eq true }
     it { expect(User.new(role: 2).customer?).to   eq true }
@@ -41,7 +39,7 @@ RSpec.describe User, type: :model do
     end
 
     context "when a token already has been taken" do
-      let!(:existing_user) { create(:user, access_token: "auniquetoken123") }
+      let!(:existing_user) { create(:user, access_token: "auniquetoken123", role: 0) }
 
       it "generates another token" do
         user.generate_access_token!

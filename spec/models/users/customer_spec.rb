@@ -9,6 +9,10 @@ RSpec.describe Users::Customer, type: :model do
     it { is_expected.to have_many :tickets }
   end
 
+  describe "role enum" do
+    it { expect(Users::Customer.new(role: 2).customer?).to  eq true }
+  end
+
   describe 'default values' do
 
     it 'sets the role to customer' do

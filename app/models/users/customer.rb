@@ -4,6 +4,10 @@ class Users::Customer < User
     class_name:   "Ticket",
     dependent:    :destroy
 
+	enum role: {
+    customer: 2  
+  }
+
   after_initialize do
     self.role ||= 'customer'
   end
