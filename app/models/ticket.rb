@@ -1,8 +1,9 @@
 class Ticket < ApplicationRecord
   acts_as_paranoid
 
-  belongs_to :customer, -> { where(role: 'customer') }, class_name: 'User'
-  belongs_to :agent, -> { where(role: 'agent').or(role: 'admin') }, class_name: 'User', optional: true
+  belongs_to  :customer, -> { where(role: 'customer') }, class_name: 'User'
+  belongs_to  :agent, -> { where(role: 'agent').or(role: 'admin') }, class_name: 'User', optional: true
+  has_many    :comments
   
 	enum status: {
     opened:     0,

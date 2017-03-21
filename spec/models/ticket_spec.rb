@@ -14,6 +14,7 @@ RSpec.describe Ticket, type: :model do
   describe 'relations' do
     it { is_expected.to belong_to :customer }
     it { is_expected.to belong_to :agent }
+    it { is_expected.to have_many :comments }
   end
 
   describe 'default values' do
