@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::SessionsController, type: :controller do
 
   describe "POST #create" do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, role: 0) }
 
     context "when the credentials are correct" do
       let(:credentials) { { email: user.email, password: "12345678" } }
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, role: 0) }
 
     it "respond with no content" do
       delete :destroy, params: { id: user.access_token }

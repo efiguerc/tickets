@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
-  let(:user) { create :user }
+  let(:user) { create :user, role: 0 }
 
   describe "GET #show" do
 
@@ -16,7 +16,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "POST #create" do
 
     context "when is successfully created" do
-      let(:user_attributes) { attributes_for :user }
+      let(:user_attributes) { attributes_for :user, role: 0 }
 
       it "renders a json representation for the user just created" do
         post :create, params: { user: user_attributes }

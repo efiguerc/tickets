@@ -11,7 +11,7 @@ RSpec.describe Authenticable do
     end
     Authentication.new
   }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: 0) }
 
   describe '#current_user' do
     before do
