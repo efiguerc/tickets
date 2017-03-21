@@ -3,6 +3,11 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password "12345678"
     password_confirmation "12345678"
-    role 'customer'
+  end
+
+  factory :customer, class: Users::Customer do
+    email { Faker::Internet.email }
+    password "12345678"
+    password_confirmation "12345678"
   end
 end
