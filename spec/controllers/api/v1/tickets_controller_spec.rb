@@ -12,4 +12,15 @@ RSpec.describe Api::V1::TicketsController, type: :controller do
       expect(response).to               have_http_status :ok
     end
   end
+
+  describe "GET #index" do
+    let!(:tickets) { create_list(:ticket, 4) }
+
+    it "returns 4 records from the database" do
+      get :index
+
+      expect(json_response.size).to   eq 4
+      expect(response).to             have_http_status :ok
+    end
+  end
 end
