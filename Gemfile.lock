@@ -119,6 +119,8 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
+    paranoia (2.2.1)
+      activerecord (>= 4.0, < 5.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -239,6 +241,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   mysql2 (>= 0.3.18, < 0.5)
+  paranoia (~> 2.2)
   pry-rails
   puma (~> 3.0)
   rails (~> 5.0.2)
