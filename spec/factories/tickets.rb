@@ -5,6 +5,10 @@ FactoryGirl.define do
     description   "No answer when doing ping on any of the productions servers"
     status        0
     priority      1
+
+    after(:build) do |ticket|
+      ticket.customer ||=  create(:user, role: 'customer')
+    end 
   end
 
   trait :with_customer do
