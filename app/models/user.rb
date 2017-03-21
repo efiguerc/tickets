@@ -6,8 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :tickets, as: :customer
-  has_many :tickets, as: :agent
+  has_many :opened_tickets, foreign_key: :customer_id, class_name: "Ticket", dependent: :destroy
+  has_many :assigned_tickets, foreign_key: :agent_id, class_name: "Ticket"
 
 	enum role: {
     admin:      0,

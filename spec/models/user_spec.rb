@@ -6,7 +6,8 @@ RSpec.describe User, type: :model do
   subject { user }
 
   describe 'relations' do
-    it { is_expected.to have_many :tickets }
+    it { is_expected.to have_many :opened_tickets }
+    it { is_expected.to have_many :assigned_tickets }
   end
 
   describe 'validations' do
@@ -45,6 +46,21 @@ RSpec.describe User, type: :model do
       it "generates another token" do
         user.generate_access_token!
         expect(subject.access_token).not_to eq existing_user.access_token
+      end
+    end
+  end
+
+  describe "#tickets association" do
+    before do
+      user.save
+      3.times { create(:ticket, customer: user) }
+    end
+
+    it "destroys the associated tickets on self destruct" do
+      tickets = user.opened_tickets
+      user.destroy
+      tickets.each do |ticket|
+        expect { Ticket.find(ticket) }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
