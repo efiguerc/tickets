@@ -2,7 +2,7 @@ class Footer extends React.Component {
 
   render () {
     return (
-      <footer class="footer">
+      <footer className="footer">
         <small>
           Rails App powered by <a href="#">Edgar Figueroa</a>
         </small>
