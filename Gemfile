@@ -9,6 +9,7 @@ ruby '2.3.3'
   gem 'mysql2', '>= 0.3.18', '< 0.5'
   gem 'puma', '~> 3.0'
   gem 'devise'
+  gem 'active_model_serializers', '~> 0.10.0'
 
 # GENERAL USAGE GEMS
   gem "paranoia", "~> 2.2"
