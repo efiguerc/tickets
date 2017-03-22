@@ -46,6 +46,7 @@ class Tickets extends React.Component {
           </thead>
           <tbody>
             { this.state.tickets.map( ticket =>
+
               <Ticket
                 key={ ticket["id"] }
                 id={ ticket["id"] }
@@ -53,10 +54,10 @@ class Tickets extends React.Component {
                 title={ ticket["title"] }
                 status={ ticket["status"] }
                 priority={ ticket["priority"] }
-                customer_id={ ticket["customer_id"] }
+                customer={ ticket["customer"]["email"] }
                 created_at={ ticket["created_at"] }
                 updated_at={ ticket["updated_at"] }
-                agent_id={ ticket["agent_id"] } />
+                agent={ ticket["agent"] && ticket["agent"]["email"] } />
             )}
           </tbody>
         </table>

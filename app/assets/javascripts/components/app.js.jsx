@@ -4,7 +4,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      current_route: "home"
+      current_route: ""
     };
   }
 
@@ -20,8 +20,8 @@ class App extends React.Component {
 
           {(() => {
             switch (this.state.current_route) {
-              case "home":    return <Home setRoute={ this._setRoute.bind(this) } />
               case "tickets": return <Tickets setRoute={ this._setRoute.bind(this) } />
+              default: return <Home setRoute={ this._setRoute.bind(this) } />
             }
           })()}
 
