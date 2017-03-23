@@ -70,6 +70,11 @@ class TicketsIndex extends React.Component {
           <a> New</a>
         </small></h1>
 
+        <form>
+          <div className="input-group col-md-offset-9 col-md-3 col-xs-12">
+            <input id="search" name="search" type="search" />
+          </div>
+        </form>
         <br/>
 
         <table className="table table-striped">
