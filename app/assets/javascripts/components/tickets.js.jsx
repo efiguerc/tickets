@@ -4,68 +4,32 @@ class Tickets extends React.Component {
     super(props);
 
     this.state = {
-      tickets: []
+      show_ticket: false,
+      current_ticket: null
     };
   }
 
-  componentDidMount() {
-    $.ajax({
-      url: '/api/v1/tickets',
-      dataType: 'json',
-      method: 'GET',
-      beforeSend(xhr) {
-        xhr.setRequestHeader('Accept', 'application/json');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-      },
-      success: (data) => {
-        this.setState({tickets: data});
-      },
-      error: (xhr, ststus, err) => {
-        e = {name: 'loadallReportNews', message: 'err: "' + err + '" Status: "'  + xhr.status + '" responseText:   ' + xhr.responseText};
-      }
-    });  
+  _showTicket(ticket) {
+    this.setState({ show_ticket: true, current_ticket: ticket });
   }
 
   render () {
+
+    let body = null;
+
+    if (this.state.show_ticket) {
+      body = <TicketsShow
+        access_token={ this.props.access_token }
+        ticket={ this.state.current_ticket } />
+    } else {
+      body = <TicketsIndex
+        access_token={ this.props.access_token }
+        showTicket={ this._showTicket.bind(this) } />;
+    }
+
     return (
       <div>
-        <h1>Tickets <small>
-          <a> New</a>
-        </small></h1>
-
-        <br/>
-
-        <table className="table table-striped">
-          <thead>
-          <tr>
-            <th>Number</th>
-            <th>Category</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Customer</th>
-            <th>Created</th>
-            <th>Updated</th>
-            <th>Agent</th>
-          </tr>
-          </thead>
-          <tbody>
-            { this.state.tickets.map( ticket =>
-
-              <Ticket
-                key={ ticket["id"] }
-                id={ ticket["id"] }
-                category={ ticket["category"] }
-                title={ ticket["title"] }
-                status={ ticket["status"] }
-                priority={ ticket["priority"] }
-                customer={ ticket["customer"]["email"] }
-                created_at={ ticket["created_at"] }
-                updated_at={ ticket["updated_at"] }
-                agent={ ticket["agent"] && ticket["agent"]["email"] } />
-            )}
-          </tbody>
-        </table>
+        { body }
       </div>
     );
   }
