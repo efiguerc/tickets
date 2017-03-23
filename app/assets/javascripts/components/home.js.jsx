@@ -11,7 +11,6 @@ class Home extends React.Component {
       <div className="row">
         <div className="center jumbotron img-responsive col-md-12 col-xs-12">
           <div className="col-md-2 col-md-offset-5">
-            <img id="logo-big" className="img-responsive" alt="Tickets System" src="http://metricswatch.com/wp-content/uploads/2016/03/logo-100px.png" />
           </div>
           <div className="col-md-12">
             <h1>Welcome to Tickets System</h1>
