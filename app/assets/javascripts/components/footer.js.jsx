@@ -4,10 +4,10 @@ class Footer extends React.Component {
     return (
       <footer className="footer">
         <small>
-          Rails App powered by <a href="#">Edgar Figueroa</a>
+          Rails App powered by <a href= "mailto:efiguerc@gmail.com.com">Edgar Figueroa</a>
         </small>
         <nav>
-          <ul><li><a href="#">Contact me!</a></li></ul>
+          <ul><li><a href= "mailto:efiguerc@gmail.com">Contact me!</a></li></ul>
         </nav>
       </footer>
     );
