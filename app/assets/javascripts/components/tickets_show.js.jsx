@@ -43,6 +43,14 @@ class TicketsShow extends React.Component {
     clearInterval(this._timer);
   }
 
+  _handleCommentPost(event) {
+    event.preventDefault();
+
+    let body = this._body;
+
+    console.log(body.value);
+  }
+
   render () {
     return (
       <div>
@@ -69,12 +77,12 @@ class TicketsShow extends React.Component {
         </dl>     
         </div>
 
-        <form id="comment">
+        <form id="comment" onSubmit={ this._handleCommentPost.bind(this) }>
           <div className="form-group">
             <label htmlFor="exampleInputComment">Comment</label>
-            <input type="text" className="form-control" id="exampleInputComment" placeholder="Comment..." ref={ (input) => this._comment = input } />
+            <input type="text" className="form-control" id="exampleInputComment" placeholder="Comment..." ref={ (input) => this._body = input } />
           </div>
-          <button type="submit" className="btn btn-default">Post Comment</button>
+          <button type="submit" className="btn btn-primary">Post Comment</button>
         </form>
 
             { this.state.comments.map( comment =>
