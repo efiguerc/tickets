@@ -6,10 +6,12 @@ class TicketSerializer < ActiveModel::Serializer
   attributes  :id,
               :category,
               :title,
+              :description,
               :status,
               :priority,
               :created_at,
               :updated_at
+
   has_one :customer
   has_one :agent
 
