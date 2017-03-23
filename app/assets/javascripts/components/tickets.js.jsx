@@ -9,7 +9,6 @@ class Tickets extends React.Component {
   }
 
   componentDidMount() {
-    var _this = this;
     $.ajax({
       url: '/api/v1/tickets',
       dataType: 'json',
@@ -18,10 +17,10 @@ class Tickets extends React.Component {
         xhr.setRequestHeader('Accept', 'application/json');
         xhr.setRequestHeader('Content-Type', 'application/json');
       },
-      success(data) {
-        _this.setState({tickets: data});
+      success: (data) => {
+        this.setState({tickets: data});
       },
-      error(xhr, ststus, err) {
+      error: (xhr, ststus, err) => {
         e = {name: 'loadallReportNews', message: 'err: "' + err + '" Status: "'  + xhr.status + '" responseText:   ' + xhr.responseText};
       }
     });  
@@ -30,6 +29,12 @@ class Tickets extends React.Component {
   render () {
     return (
       <div>
+        <h1>Tickets <small>
+          <a> New</a>
+        </small></h1>
+
+        <br/>
+
         <table className="table table-striped">
           <thead>
           <tr>

@@ -1,11 +1,6 @@
 class Ticket extends React.Component {
 
   render () {
-    let agent = "";
-    if (this.props.agent != null) {
-      agent = this.props.agent["email"];
-    }
-
     return (
       <tr>
         <td>{ this.props.id }</td>
