@@ -4,8 +4,9 @@ class UserSerializer < ActiveModel::Serializer
               :email,
               :created_at,
               :updated_at,
-              :access_token,
               :role
+
+  attribute :access_token, if: :is_current_user?
 
   def created_at
     "#{object.created_at.strftime("%m-%d-%Y")}"
@@ -13,5 +14,9 @@ class UserSerializer < ActiveModel::Serializer
 
   def updated_at
     "#{object.updated_at.strftime("%m-%d-%Y")}"
+  end
+
+  def is_current_user?
+    object.id == current_user.id
   end
 end
