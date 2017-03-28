@@ -35,6 +35,38 @@ end
 RSpec.describe Api::V1::UsersController, type: :controller do
   let(:user) { create :user, role: "customer" }
 
+  describe "GET #index" do
+
+    context "when user NOT authenticated" do
+      before do
+        get :index
+      end
+
+      include_examples "renders an errors json"
+    end
+
+    context "when user is authenticated" do
+      let!(:users) { create_list(:user, 2, role: "customer") }
+
+      before(:each) do
+        api_authorization_header requester.access_token
+        get :index
+      end
+
+      include_examples "when current_user is NOT admin"
+
+      context "when current_user is an admin" do
+        let(:requester) { create :user, role: "admin" }
+
+        it "returns 4 records from the database" do
+          p json_response
+          expect(json_response.size).to   eq 3
+          expect(response).to             have_http_status :ok
+        end
+      end
+    end
+  end
+
   describe "GET #show" do
 
     context "when user NOT authenticated" do
@@ -187,8 +219,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
           let(:user) { requester }
 
           it "renders an errors json" do
-            p user
-            p requester
             expect(json_response).to                  have_key :errors
             expect(json_response[:errors]).to include "Not authorized!"
             expect(response).to                       have_http_status :unauthorized
