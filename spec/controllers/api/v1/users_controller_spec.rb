@@ -1,19 +1,48 @@
 require 'rails_helper'
 
+RSpec.shared_examples "renders an errors json" do
+
+  it "renders NOT authenticated error" do
+    expect(json_response).to                  have_key :errors
+    expect(json_response[:errors]).to include "Not authenticated"
+    expect(response).to                       have_http_status :unauthorized
+  end
+end
+
+RSpec.shared_examples "when current_user is NOT admin" do
+
+    context "when current_user is a customer" do
+      let(:requester) { create :user, role: "customer" }
+
+      it "renders an errors json" do
+        expect(json_response).to                  have_key :errors
+        expect(json_response[:errors]).to include "Not authorized!"
+        expect(response).to                       have_http_status :unauthorized
+      end
+    end
+
+    context "when current_user is an agent" do
+      let(:requester) { create :user, role: "agent" }
+
+      it "renders an errors json" do
+        expect(json_response).to                  have_key :errors
+        expect(json_response[:errors]).to include "Not authorized!"
+        expect(response).to                       have_http_status :unauthorized
+      end
+    end
+end
+
 RSpec.describe Api::V1::UsersController, type: :controller do
   let(:user) { create :user, role: "customer" }
 
   describe "GET #show" do
 
     context "when user NOT authenticated" do
-
-      it "renders an errors json" do
+      before do
         get :show, params: { id: user.id }
-
-        expect(json_response).to                  have_key :errors
-        expect(json_response[:errors]).to include "Not authenticated"
-        expect(response).to                       have_http_status :unauthorized
       end
+
+      include_examples "renders an errors json"
     end
 
     context "when user is authenticated" do
@@ -22,25 +51,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         get :show, params: { id: user.id }
       end
 
-      context "when current_user is a customer" do
-        let(:requester) { create :user, role: "customer" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
-
-      context "when current_user is an agent" do
-        let(:requester) { create :user, role: "agent" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
+      include_examples "when current_user is NOT admin"
 
       context "when current_user is an admin" do
         let(:requester) { create :user, role: "admin" }
@@ -57,14 +68,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:user_attributes) { attributes_for :user, role: "customer" }
 
     context "when user NOT authenticated" do
-
-      it "renders an errors json" do
+      before do
         post :create, params: { user: user_attributes }
-
-        expect(json_response).to                  have_key :errors
-        expect(json_response[:errors]).to include "Not authenticated"
-        expect(response).to                       have_http_status :unauthorized
       end
+
+      include_examples "renders an errors json"
     end
 
     context "when user is authenticated" do
@@ -73,25 +81,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         post :create, params: { user: user_attributes }
       end
 
-      context "when current_user is a customer" do
-        let(:requester) { create :user, role: "customer" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
-
-      context "when current_user is a agent" do
-        let(:requester) { create :user, role: "agent" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
+      include_examples "when current_user is NOT admin"
 
       context "when current_user is a admin" do
         let(:requester) { create :user, role: "admin" }
@@ -121,14 +111,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:user) { create :user, role: "customer" }
 
     context "when user NOT authenticated" do
-
-      it "renders an errors json" do
+      before do
         patch :update, params: { id: user.id, user: {email: "new_mail@example.com"} }
-
-        expect(json_response).to                  have_key :errors
-        expect(json_response[:errors]).to include "Not authenticated"
-        expect(response).to                       have_http_status :unauthorized
       end
+
+      include_examples "renders an errors json"
     end
 
     context "when user is authenticated" do
@@ -139,27 +126,9 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         patch :update, params: { id: user.id, user: user_attributes }
       end
 
-      context "when current_user is a customer" do
-        let(:requester) { create :user, role: "customer" }
+      include_examples "when current_user is NOT admin"
 
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
-
-      context "when current_user is a agent" do
-        let(:requester) { create :user, role: "agent" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
-
-      context "when current_user is a admin" do
+      context "when current_user is an admin" do
         let(:requester) { create :user, role: "admin" }
 
         context "when is succesfully updated" do
@@ -188,14 +157,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     let(:user) { create :user, role: "customer" }
 
     context "when user NOT authenticated" do
-
-      it "renders an errors json" do
+      before do
         delete :destroy, params: { id: user.id }
-
-        expect(json_response).to                  have_key :errors
-        expect(json_response[:errors]).to include "Not authenticated"
-        expect(response).to                       have_http_status :unauthorized
       end
+
+      include_examples "renders an errors json"
     end
 
     context "when user is authenticated" do
@@ -205,25 +171,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         delete :destroy, params: { id: user.id }
       end
 
-      context "when current_user is a customer" do
-        let(:requester) { create :user, role: "customer" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
-
-      context "when current_user is a agent" do
-        let(:requester) { create :user, role: "agent" }
-
-        it "renders an errors json" do
-          expect(json_response).to                  have_key :errors
-          expect(json_response[:errors]).to include "Not authorized!"
-          expect(response).to                       have_http_status :unauthorized
-        end
-      end
+      include_examples "when current_user is NOT admin"
 
       context "when current_user is a admin" do
         let(:requester) { create :user, role: "admin" }
