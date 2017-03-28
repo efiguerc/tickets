@@ -32,9 +32,13 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy
-    head :no_content
+    if current_user.id != params[:id].to_i
+      user = User.find(params[:id])
+      user.destroy
+      head :no_content
+    else
+      render json: { errors: "Not authorized!" }, status: :unauthorized
+    end
   end
 
   private
